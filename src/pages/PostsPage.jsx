@@ -21,9 +21,6 @@ export const PostsPage = () => {
     // variabile di stato per il Loader
     const [isLoading, setIsLoading] = useState(false);
 
-
-
-
     //Shortcut di useEffect se contiene solo una riga di codice
     useEffect(() => getData(search), [search]);
 
@@ -66,7 +63,7 @@ export const PostsPage = () => {
     function deleteItem(e, id) {
         e.preventDefault();
         // console.log(e);
-        //console.log("sono qui al libro " + data.title);
+        //console.log("sono qui al post " + data.title);
         axios.delete(`${apiUrl}${postEndPoint}/${id}`)
             .then((res) => {
                 console.log(res);

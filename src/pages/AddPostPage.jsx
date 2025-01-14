@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 // Api url per axios
 const apiUrl = import.meta.env.VITE_API_URL;
+// Importo il Contexts con l'hook personalizzato da AlertContext,jsx:
+import { useAlertContext } from "../contexts/AlertContext";
 // Importo la GlobalContex
 import { GlobalContext } from "../contexts/GlobalContext";  //Importo il contesto (context) GlobalContext che ho creato nel componente GLobalContext.jsx
 
@@ -33,10 +35,13 @@ function AddPostPage() {
 
     // Utilizzo l'hook useContext passandogli il GlobalContext così da recuperare i dati che sono nella prop value del Provider
     const { tagList } = useContext(GlobalContext);      // INFATTI LA LISTA DI TAG NON LA PRELEVO PIU' DALLA CHIAMATA API AL SERVER TRAMITE
-                                                        // AXIOS IN QUESTO COMPONENTE, MA STO ANDANDO A PRENDERE LA LISTA DEI TAG IN 
-                                                        // App.jsx (E' LI CHE FACCIO LA CHIAMATA API CON AXIOS) E POI LA PASSO QUI NEL
-                                                        // COMPONENTE AddPostPage    <---- TRAMITE IL VALUE DI 
-                                                        // <GlobalContext.Provider value={{ tagList }}>
+    // AXIOS IN QUESTO COMPONENTE, MA STO ANDANDO A PRENDERE LA LISTA DEI TAG IN 
+    // App.jsx (E' LI CHE FACCIO LA CHIAMATA API CON AXIOS) E POI LA PASSO QUI NEL
+    // COMPONENTE AddPostPage    <---- TRAMITE IL VALUE DI 
+    // <GlobalContext.Provider value={{ tagList }}>
+
+    // Variabile di stato personalizzata del Context:
+    const { setAlertData } = useAlertContext();
 
     // assegno alla costante navigate l'hook di useNavigate per permettere la reindirizzazione dell'utente alla pagina da noi desiderata
     const navigate = useNavigate();
@@ -82,6 +87,15 @@ function AddPostPage() {
                 console.log("res.data.item.id: ", res.data.item.id);
                 // Dopo aver aggiunto il nuovo post reindirizzo l'utente alla pagina dei dettagli del post aggiunto
                 const id = res.data.item.id;
+
+                // Setto la variabile di stato personalizzata del Context con un messaggio di successo se il post è stato aggiunto correttamente
+                // per visualizzare l'alert success:
+                setAlertData({
+                    type: "success",
+                    message: "Il post con id: " + id + " è stato aggiunto con successo!",
+                });
+
+                // Navigate che reindirizza al post aggiunto:
                 navigate("/posts/" + id);
                 // Oppure posso reindirizzare l'utente alla pagina con la lista di tutti i post
                 // navigate("/posts");

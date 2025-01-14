@@ -7,6 +7,7 @@ import axios from "axios";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 import { GlobalContext } from "./contexts/GlobalContext"; //Importo il contesto (context) GlobalContext che ho creato nel componente GLobalContext.jsx
+import { AlertProvider } from "./contexts/AlertContext";   // Importo AlertContext
 import DefaultLayout from "./pages/DefaultLayout";
 import Contact from "./pages/Contact";
 import ChiSiamo from "./pages/ChiSiamo";
@@ -18,6 +19,8 @@ import AddPostPage from "./pages/AddPostPage";
 function App() {
   // Variabile di stato contenente la lista dei tags (che all'avvio inizializzo con un array vuoto)
   const [tagList, setTagList] = useState([]);
+  // Variabile di stato contenente messaggio di alert
+  const [alert, setAlert] = useState({ type: "", message: "" });
 
   // Appena entro nel componente, grazie all'hook useEffect, richiamo la funzione getTags che andrà a riempire la lista degli ingredienti con
   // i valori prelevati con axios tramite API dal models del backend
@@ -41,24 +44,27 @@ function App() {
     // Assegno come valore del Context la variabile di stato tagList che sarà disponibile a tutti i componenti che la richiederanno,
     // importando la context GlobalContext che ho creato, assegnandogli la proprietà Provider, che wrappa tutti i componenti al suo interno
     <GlobalContext.Provider value={{ tagList }}>
-      <BrowserRouter>
-        <Routes>
-          <Route Component={DefaultLayout}>
-            <Route index Component={HomePage} />
-            <Route path="/posts">
-              <Route index Component={PostsPage} />
-              <Route path=":id" Component={PostPage}></Route>
-              <Route path="create" Component={AddPostPage} />
+      {/* Importo il Provider personalizzato AlertProvider presente in AlertCOntext.jsx */}
+      <AlertProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route Component={DefaultLayout}>
+              <Route index Component={HomePage} />
+              <Route path="/posts">
+                <Route index Component={PostsPage} />
+                <Route path=":id" Component={PostPage}></Route>
+                <Route path="create" Component={AddPostPage} />
+              </Route>
+              <Route path="/chi-siamo" Component={ChiSiamo} />
+              <Route path="/contact" Component={Contact} />
+              {/* Se inserisco l'URL /articoli: "http://localhost:5173/articoli" con Navigate reindirizzo alla rotta /post: "http://localhost:5173/posts" */}
+              <Route path="articoli" element={<Navigate to="/posts" />} />
             </Route>
-            <Route path="/chi-siamo" Component={ChiSiamo} />
-            <Route path="/contact" Component={Contact} />
-            {/* Se inserisco l'URL /ricette: "http://localhost:5173/ricette" con Navigate reindirizzo alla rotta /post: "http://localhost:5173/posts" */}
-            <Route path="ricette" element={<Navigate to="/posts" />} />
-          </Route>
-          {/* Rotta per le pagine non trovate: inserendo path="*" */}
-          <Route path="*" Component={NotFoundPage} />
-        </Routes>
-      </BrowserRouter>
+            {/* Rotta per le pagine non trovate: inserendo path="*" */}
+            <Route path="*" Component={NotFoundPage} />
+          </Routes>
+        </BrowserRouter>
+      </AlertProvider>
     </GlobalContext.Provider>
   );
 }

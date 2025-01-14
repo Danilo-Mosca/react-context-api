@@ -1,4 +1,4 @@
-# React esempio fatto in classe
+# Esercizio di oggi: *React Context API*
 
 ```bash
 # clono la cartella da github
@@ -56,6 +56,14 @@ rules: {
 
 
 ```bash
-Esercizio del 13/01/2024: fatto in classe
-Visualizzazione della lista tag dei post
+Esercizio del 13/01/2024: repo: react-context-api
+Esercizio di oggi: *React Context API*
+*Consegna*
+Sfruttiamo le Context API per rendere disponibile la lista dei post o dei tags in tutta la nostra app.
+- Partiamo col definire la lista  all’interno di App.jsx
+- Creiamo un file per definire il nostro Context ed esportiamolo
+- Importiamo il Provider in App.jsx e wrappiamoci la nostra applicazione
+- Facciamo in modo che i componenti  recuperino i dati dei post o dei tag consumando il Context.
+Bonus
+Aggiungere un AlertContext e un componente Alert, come visto oggi in classe
 ```
