@@ -8,7 +8,7 @@ export default function Contact() {
     return (
         <>
         <h1>Contatti</h1>
-            <h3>Lista dei tag recuperati tramite la gestione dello stato globale di Context API:</h3>
+            <h4>Lista dei tag recuperati tramite la gestione dello stato globale di Context API:</h4>
             <ul>
                 {/* Stampo a schermo i dati recuperati tramite la Context API   */}
                 {tagList.map((tag) => (

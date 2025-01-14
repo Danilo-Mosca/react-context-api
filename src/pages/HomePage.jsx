@@ -1,7 +1,20 @@
+import { useContext } from "react";     // importo il hook useContext per utilizzare il contesto GlobalContext
+import { GlobalContext } from "../contexts/GlobalContext";  //Importo il contesto (context) GlobalContext che ho creato nel componente GLobalContext.jsx
+
 export default function HomePage() {
+    // Utilizzo l'hook useContext passandogli il GlobalContext così da recuperare i dati che sono nella prop value del Provider
+    const { tagList } = useContext(GlobalContext);
+
     return (
         <div>
-        <h1>Homepage</h1>
+            <h1>Homepage</h1>
+            <h4>Lista dei tag recuperati tramite la gestione dello stato globale di Context API:</h4>
+            <ul>
+                {/* Stampo a schermo i dati recuperati tramite la Context API   */}
+                {tagList.map((tag) => (
+                    <li key={tag.id}>{tag.title}</li>
+                ))}
+            </ul>
         </div>
     );
 }
